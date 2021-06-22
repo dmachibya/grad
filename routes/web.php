@@ -33,6 +33,8 @@ Route::get('/certificate/update/{id}', [CertificateController::class, 'update'])
 Route::post('/certificate/update/{id}', [CertificateController::class, 'patch']);
 Route::post('/admin/role/{id}', [CertificateController::class, 'role']);
 
+Route::get('/clearance/new', [CertificateController::class, 'clearance_new'])->middleware("student");
+Route::post('/clearance/start', [CertificateController::class, 'clearance_start'])->middleware("student");
 
 Route::get("/logout", function(){
     Auth::logout();

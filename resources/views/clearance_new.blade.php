@@ -38,7 +38,7 @@
                                 Home
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/certificates">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/dashboard">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -92,21 +92,18 @@
                 </div>
             </header>
             <div class="overflow-auto h-screen pb-24 px-4 md:px-6">
-                <h1 class="text-4xl font-semibold text-gray-800 dark:text-white">
-                    Admin Dashboard
+                <h1 class="text-4xl font-semibold text-gray-800 dark:text-white my-2">
+                    Clearance Form
                     
                 </h1>
-                <table id="myTable" class="">
-                    <thead>
-                        <tr>
-                            <td>Full Name</td>
-                            <td>Email Address</td>
-                            <td>Role</td>
-                            <td>Actions</td>
-                        </tr>
-                    </thead>
-                   
-                </table>
+                <p>Click the button below to start clearance process</p>
+
+                <form action="/clearance/start" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="{{Auth::user()->id}}">
+                    <input type="submit" class="px-4 py-2 bg-blue-500 text-white my-2" value="Start">
+                </form>
+                
 
 
             </div>
@@ -121,23 +118,6 @@
     </div>
     @endif
 
-<script>
-    function role() {
-        return {
-            user: 1,
-            number: 1
-        }
-    }
 
-    $(document).ready( function () {
-        $('#myTable').DataTable({
-            responsive: true,
-            columnDefs: [
-                { responsivePriority: 1, targets: 0},
-                { responsivePriority: 2, targets: -1},
-            ]
-        });
-    } );
-    </script>
 </body>
 </html>

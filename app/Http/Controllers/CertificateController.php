@@ -116,4 +116,8 @@ class CertificateController extends Controller
         $certificate->save();
         return redirect("/certificates")->with("success", "Updated Successfully");
     }
+
+    public function clearance_new(){
+        return view("clearance_new");
+    }
 }
