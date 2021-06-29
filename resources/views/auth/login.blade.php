@@ -46,11 +46,12 @@
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
-
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
             </div>
+            <p>Not registered? <a href="/register">Register here</a></p>
+
         </form>
     </x-auth-card>
 </x-guest-layout>

@@ -23,6 +23,9 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
+    public function create_staff(){
+        return view("auth.register_staff");
+    }
     /**
      * Handle an incoming registration request.
      *
@@ -35,13 +38,24 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'admission' => 'string|max:20',
+            'level' => 'string|max:5',
+            'course' => 'string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
+        // dd("here");
+        if($request->role == NULL){
+            $request->role = 0;
+        }
         $user = User::create([
             'name' => $request->name,
+            'admission' => $request->admission,
+            'role' => $request->role,
+            'level' => $request->level,
+            'course' => $request->course,
             'email' => $request->email,
+            'token' => $request->token,
             'password' => Hash::make($request->password),
         ]);
 

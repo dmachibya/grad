@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class Admin
+class Officer
 {
     /**
      * Handle an incoming request.
@@ -20,7 +20,7 @@ class Admin
     {
         $user = Auth::user();
 
-        if($user->role == 7){
+        if($user->role > 1 && $user->role < 8){
             return $next($request);
         }else {
             return redirect("/");

@@ -13,6 +13,12 @@
     <script src="{{asset('js/dataTables.responsive.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/responsive.dataTables.min.css')}}">
+
+    <style>
+        .dataTables_length select {
+            width: 70px;
+        }
+    </style>
 </head>
 <body>
     
@@ -38,7 +44,7 @@
                                 Home
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/certificates">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/certificates/Lecturer">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -46,7 +52,19 @@
                                 </svg>
                             </span>
                             <span class="mx-2 text-sm font-normal">
-                                Users and Roles
+                                Certificate Requests
+                                
+                            </span>
+                        </a>
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/Lecturer">
+                            <span class="text-left">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <span class="mx-2 text-sm font-normal">
+                                Clearance
                                 
                             </span>
                         </a>
@@ -91,9 +109,9 @@
                     </div>
                 </div>
             </header>
-            <div class="overflow-auto h-screen pb-24 px-4 md:px-6">
-                <h1 class="text-4xl font-semibold text-gray-800 dark:text-white">
-                    Admin Dashboard
+            <div class="overflow-auto h-screen pb-24 px-4 md:px-6 bg-white shadow-md">
+                <h1 class="text-4xl font-semibold text-gray-800 dark:text-white my-6">
+                    Clearance Requests
                     
                 </h1>
                 <table id="myTable" class="">
@@ -101,11 +119,35 @@
                         <tr>
                             <td>Full Name</td>
                             <td>Email Address</td>
-                            <td>Role</td>
                             <td>Actions</td>
                         </tr>
                     </thead>
-                   
+                    <tbody>
+                        @foreach ($collection as $item)
+                        <tr>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->email}}</td>
+                            <td>
+                                
+                                <form action="/clearance/move" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="userid" value="{{$item->userid}}">
+                                    <input type="hidden" name="role" value="{{Auth::user()->role}}">
+                                    <input type="hidden" name="status" value="1">
+                                    <button type="submit" class="my-1 inline-block px-6 py-2 bg-green-600 text-white rounded-md">Approve</button>
+                                </form>
+                                <form action="/clearance/move" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="userid" value="{{$item->userid}}">
+                                    <input type="hidden" name="role" value="{{Auth::user()->role}}">
+                                    <input type="hidden" name="status" value="1">
+                                    <button type="submit" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Approve</button>
+                                </form>
+                                {{-- <a href="/certificate/delete/{{$item->id}}" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Deny</a> --}}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
 
 

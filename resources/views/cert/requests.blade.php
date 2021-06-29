@@ -44,7 +44,7 @@
                                 Home
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/certificates/hod">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/process/certificates">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -56,7 +56,7 @@
                                 
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/hod">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/process/clearances">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -109,49 +109,76 @@
                     </div>
                 </div>
             </header>
-            <div class="overflow-auto h-screen pb-24 px-4 md:px-6">
-                <h1 class="text-4xl font-semibold text-gray-800 dark:text-white">
-                    Admin Dashboard
+            <div class="overflow-auto h-screen pb-24 px-4 md:px-6 bg-white shadow-md">
+                <h1 class="text-4xl font-semibold text-gray-800 dark:text-white my-6">
+                    Certificates
                     
+                    @php
+                        $role = Auth::user()->role; 
+
+
+                    @endphp
+
+                    @switch($role)
+                        @case(2)
+                            (Lecturer)
+                            @break
+                        @case(3)
+                            (HOD)
+                            @break
+                        @case(4)
+                            (Librarian)
+                            @break
+                        @case(5)
+                            (Accountant)
+                            @break
+                        @case(6)
+                            (Registrar)
+                            @break
+                        @default
+                            
+                    @endswitch
                 </h1>
                 <table id="myTable" class="">
                     <thead>
                         <tr>
                             <td>Full Name</td>
+                            <td>Permanent Address</td>
+                            <td>Telephone</td>
                             <td>Email Address</td>
-                            <td>Role</td>
+                            <td>Date of Birth</td>
+                            <td>Place of Birth</td>
+                            <td>Award</td>
+                            <td>Programme</td>
+                            <td>Year of Admission</td>
+                            <td>Year of Graduation</td>
+                            <td>Application Date</td>
                             <td>Actions</td>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $item)
+                        @foreach ($collection as $item)
                         <tr>
-                            <td>{{$item->name}} :: {{$item->email}}</td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->address}}</td>
+                            <td>{{$item->phone}}</td>
+                            <td>{{$item->email}}</td>
+                            <td>{{$item->date_of_birth}}</td>
+                            <td>{{$item->place_of_birth}}</td>
+                            <td>{{$item->grade}}</td>
+                            <td>{{$item->programme}}</td>
+                            <td>{{$item->year_of_admission}}</td>
+                            <td>{{$item->year_of_graduation}}</td>
+                            <td>{{$item->form_date}}</td>
                             <td>
-                                {{$item->email}}
-                            </td>
-                            <td x-data="{ role: false }">
-                               <form action="/admin/role" method="POST" x-show.transition="role">
-                               {{csrf_field()}}
-                                    <input type="hidden" name="user_email" value="{{$item->email}}">
-                                    <select name="role" id="role">
-                                        <option value="1">Student</option>
-                                        <option value="2">Lecturer</option>
-                                        <option value="3">HOD</option>
-                                        <option value="4">Librarian</option>
-                                        <option value="5">Accountant</option>
-                                        <option value="6">Registrar</option>
-                                        <option value="7">Admin</option>
-                                    </select>
-                                    <button type="submit" class="bg-blue-500 px-6 py-2 rounded-lg text-white">Change</button>
+                                
+                                <form action="/certificate/move" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="userid" value="{{$item->userid}}">
+                                    <input type="hidden" name="role" value="{{Auth::user()->role}}">
+                                    <button type="submit" class="my-1 inline-block px-6 py-2 bg-green-600 text-white rounded-md">Approve</button>
                                 </form>
-
-                                <div x.show.transition="!role">
-                                    {{$item->role_name}} <sup class="text-blue-500 cursor-pointer" @click="role = true">Change</sup>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="/certificate/delete/{{$item->id}}" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Delete</a>
+                                <a href="/certificate/delete/{{$item->id}}" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Deny</a>
                             </td>
                         </tr>
                         @endforeach

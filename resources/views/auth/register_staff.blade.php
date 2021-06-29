@@ -18,37 +18,22 @@
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
             </div>
-            <!-- Admission Number -->
-            <div>
-                <x-label for="admission" :value="__('Admission Number')" />
+           
 
-                <x-input id="admission" class="block mt-1 w-full" type="text" name="admission" :value="old('admission')" required autofocus />
-            </div>
+            
 
-             <!-- Level -->
+             <!-- Role -->
              <div>
-                <x-label for="level" :value="__('Level')" />
-
-                <select name="level">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7-1">7-1</option>
-                    <option value="7-2">7-2</option>
-                    <option value="8">8</option>
-                </select>
-            </div>
-
-             <!-- Course -->
-             <div>
-                <x-label for="name" :value="__('Name')" />
-
-                <select name="course">
-                    <option value="1">Information Technology</option>
-                    <option value="2">Computer Science</option>
+                <x-label for="name" :value="__('Role')" />
+                @php
+                    $roles = DB::select('select * from roles');
+                    array_splice($roles, 0,1);
+                @endphp
+               
+                <select name="role">
+                    @foreach ($roles as $item)
+                        <option value="{{$item->number}}">{{$item->role_name}}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -94,7 +79,6 @@
                     {{ __('Register') }}
                 </x-button>
             </div>
-            <p>Are you Staff? <a href="/register/staff" class="text-blue-500">Staff Registration here</a></p>
         </form>
     </x-auth-card>
 </x-guest-layout>

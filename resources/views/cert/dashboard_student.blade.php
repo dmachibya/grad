@@ -13,6 +13,12 @@
     <script src="{{asset('js/dataTables.responsive.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/responsive.dataTables.min.css')}}">
+
+    <style>
+        .dataTables_length select {
+            width: 70px;
+        }
+    </style>
 </head>
 <body>
     
@@ -22,7 +28,7 @@
             <div class="bg-white h-full dark:bg-gray-700">
                 <div class="flex items-center justify-start pt-6 ml-8">
                     <p class="font-bold dark:text-white text-xl">
-                        Plannifer
+                        Graduate information Systemsss
                     </p>
                 </div>
                 <nav class="mt-6">

@@ -22,7 +22,7 @@
             <div class="bg-white h-full dark:bg-gray-700">
                 <div class="flex items-center justify-start pt-6 ml-8">
                     <p class="font-bold dark:text-white text-xl">
-                        Plannifer
+                        Graduate Information System
                     </p>
                 </div>
                 <nav class="mt-6">
