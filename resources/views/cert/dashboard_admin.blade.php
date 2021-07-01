@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Graduate Information System</title>
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <script src="{{asset('js/alpine.min.js')}}"></script>
@@ -17,6 +17,9 @@
     <style>
         .dataTables_length select {
             width: 70px;
+        }
+        .bt-300 {
+            background: rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -44,7 +47,7 @@
                                 Home
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/certificates/hod">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/admin/users">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -52,11 +55,11 @@
                                 </svg>
                             </span>
                             <span class="mx-2 text-sm font-normal">
-                                Certificate Requests
+                                Users
                                 
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/hod">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/admin/courses">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -64,7 +67,31 @@
                                 </svg>
                             </span>
                             <span class="mx-2 text-sm font-normal">
-                                Clearance
+                                Courses
+                                
+                            </span>
+                        </a>
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/admin/departments">
+                            <span class="text-left">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <span class="mx-2 text-sm font-normal">
+                                Departments
+                                
+                            </span>
+                        </a>
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/admin/tokens">
+                            <span class="text-left">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <span class="mx-2 text-sm font-normal">
+                                Tokens
                                 
                             </span>
                         </a>
@@ -114,49 +141,8 @@
                     Admin Dashboard
                     
                 </h1>
-                <table id="myTable" class="">
-                    <thead>
-                        <tr>
-                            <td>Full Name</td>
-                            <td>Email Address</td>
-                            <td>Role</td>
-                            <td>Actions</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $item)
-                        <tr>
-                            <td>{{$item->name}} :: {{$item->email}}</td>
-                            <td>
-                                {{$item->email}}
-                            </td>
-                            <td x-data="{ role: false }">
-                               <form action="/admin/role" method="POST" x-show.transition="role">
-                               {{csrf_field()}}
-                                    <input type="hidden" name="user_email" value="{{$item->email}}">
-                                    <select name="role" id="role">
-                                        <option value="1">Student</option>
-                                        <option value="2">Lecturer</option>
-                                        <option value="3">HOD</option>
-                                        <option value="4">Librarian</option>
-                                        <option value="5">Accountant</option>
-                                        <option value="6">Registrar</option>
-                                        <option value="7">Admin</option>
-                                    </select>
-                                    <button type="submit" class="bg-blue-500 px-6 py-2 rounded-lg text-white">Change</button>
-                                </form>
-
-                                <div x.show.transition="!role">
-                                    {{$item->role_name}} <sup class="text-blue-500 cursor-pointer" @click="role = true">Change</sup>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="/certificate/delete/{{$item->id}}" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Delete</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                
+                @yield('content')
 
 
             </div>

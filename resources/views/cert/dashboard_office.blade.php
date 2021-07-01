@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Graduate Information System</title>
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <script src="{{asset('js/alpine.min.js')}}"></script>
@@ -137,18 +137,8 @@
                     @endswitch
                         Dashboard
                 </h1>
-                <table id="myTable" class="">
-                    <thead>
-                        <tr>
-                            <td>S/No</td>
-                            <td>Full Name</td>
-                            <td>Email Address</td>
-                            <td>Role</td>
-                            <td>Actions</td>
-                        </tr>
-                    </thead>
-                   
-                </table>
+                <a href="/process/certificates" class="inline-block px-6 py-2 bg-blue-500 text-white rounded-md">Certificate Requests</a>
+                <a href="/process/clearances" class="inline-block px-6 py-2 bg-green-500 text-white rounded-md">Clearance Requests</a>
 
 
             </div>

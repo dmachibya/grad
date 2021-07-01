@@ -44,11 +44,51 @@
 
              <!-- Course -->
              <div>
-                <x-label for="name" :value="__('Name')" />
+                <x-label for="name" :value="__('Course')" />
 
                 <select name="course">
-                    <option value="1">Information Technology</option>
-                    <option value="2">Computer Science</option>
+                     @php
+                        $courses = DB::select('select * from courses');
+                        if(count($courses)>0){
+                        
+                            foreach ($courses as $key => $value) {
+                                # code...
+                                $hasData = true;
+                            }
+                        }else {
+                            $hasData = false;
+                        }
+                    @endphp
+                   @if ($hasData)
+                       @foreach ($courses as $course)
+                           <option value="{{$course->id}}">{{$course->course_name}}</option>
+                        
+                       @endforeach
+                   @endif
+                </select>
+            </div>
+             <div>
+                <x-label for="department" :value="__('Departments')" />
+                
+                <select name="department">
+                     @php
+                        $departments = DB::select('select * from departments');
+                        if(count($departments)>0){
+                        
+                            foreach ($departments as $key => $value) {
+                                # code...
+                                $hasData = true;
+                            }
+                        }else {
+                            $hasData = false;
+                        }
+                    @endphp
+                   @if ($hasData)
+                       @foreach ($departments as $department)
+                           <option value="{{$department->id}}">{{$department->department_name}}</option>
+                        
+                       @endforeach
+                   @endif
                 </select>
             </div>
 

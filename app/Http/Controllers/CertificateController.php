@@ -13,15 +13,14 @@ class CertificateController extends Controller
 {
     //
 
-    public function dashboard(){
+    public function dashboard()
+    {
         $role = Auth::user()->role;
-        if($role == 0){
+        if ($role == 0) {
             $role = 1;
         }
         // return view("dashboard");
-        $users = User::whereNotIn("users.id", [Auth::user()->id])
-                ->join('roles', 'users.role', '=', 'roles.number')
-                ->get();
+
         // dd(count($users));
         switch ($role) {
             case 2:
@@ -30,7 +29,7 @@ class CertificateController extends Controller
             case 3:
                 return view("cert.dashboard_office");
                 break;
-            case 4: 
+            case 4:
                 return view("cert.dashboard_office");
                 break;
 
@@ -41,7 +40,7 @@ class CertificateController extends Controller
                 return view("cert.dashboard_office");
                 break;
             case 7:
-                return view("cert.dashboard_admin")->with("users", $users);
+                return view("other.home");
                 break;
             default:
                 return view("cert.dashboard_student");
@@ -49,11 +48,10 @@ class CertificateController extends Controller
         }
 
         return view("cert.dashboard_student");
-        
-        
     }
 
-    public function role(Request $request){
+    public function role(Request $request)
+    {
         // dd($request->user_email);
         $user = User::where("email", $request->user_email)->first();
         $user->role = $request->role;
@@ -62,20 +60,23 @@ class CertificateController extends Controller
         return back()->with("success", "Role changed successfully");
     }
 
-    public function index(){
-        
+    public function index()
+    {
+
 
         $certs = Certificate::all();
         return view("cert.dashboard")->with("collection", $certs);
     }
 
-    public function certificates(){
+    public function certificates()
+    {
 
         $certs = Certificate::all();
         return view("cert.home")->with("collection", $certs);
     }
 
-    public function process_certificates(){
+    public function process_certificates()
+    {
         $role = Auth::user()->role;
         // dd("here");
         switch ($role) {
@@ -93,7 +94,7 @@ class CertificateController extends Controller
                 break;
             case '6':
                 return redirect("/certificate/registrar");
-                break;   
+                break;
 
             default:
                 # code...
@@ -101,11 +102,12 @@ class CertificateController extends Controller
         }
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         $certificate = new Certificate();
-        $fields = ['name', 'address', 'phone', 'email', 'date_of_birth', 'place_of_birth', 'place_of_birth', 'grade', 'programme','year_of_admission', 'registration_number', 'year_of_graduation'];
+        $fields = ['name', 'address', 'phone', 'email', 'date_of_birth', 'place_of_birth', 'place_of_birth', 'grade', 'programme', 'year_of_admission', 'registration_number', 'year_of_graduation'];
 
-        
+
         foreach ($fields as $key => $value) {
             # code...
             $certificate->$value = $request->$value;
@@ -120,7 +122,8 @@ class CertificateController extends Controller
         return redirect("/certificates")->with("success", "Certificate Request Successfully Sent");
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $certificate = Certificate::find($id);
 
         $certificate->delete();
@@ -128,16 +131,18 @@ class CertificateController extends Controller
         return redirect("/certificates")->with("success", "Deleted Successfully");
     }
 
-    public function update($id){
+    public function update($id)
+    {
         $certificate = Certificate::find($id);
 
         return view("cert.update")->with("item", $certificate);
     }
 
-    public function patch($id, Request $request){
+    public function patch($id, Request $request)
+    {
         $certificate = Certificate::find($id);
 
-        $fields = ['name', 'address', 'phone', 'email', 'date_of_birth', 'place_of_birth', 'place_of_birth', 'grade', 'programme','year_of_admission', 'registration_number', 'year_of_graduation'];
+        $fields = ['name', 'address', 'phone', 'email', 'date_of_birth', 'place_of_birth', 'place_of_birth', 'grade', 'programme', 'year_of_admission', 'registration_number', 'year_of_graduation'];
 
 
         foreach ($fields as $key => $value) {
@@ -149,28 +154,29 @@ class CertificateController extends Controller
         return redirect("/certificates")->with("success", "Updated Successfully");
     }
 
-    public function who($who){
+    public function who($who)
+    {
         // dd("here");
         switch ($who) {
             case 'lecturer':
                 // dd("here");
-                if(Auth::user()->role != 2){
+                if (Auth::user()->role != 2) {
                     return redirect("/")->with("success", "You have no access there");
                 }
                 $requests = Certificate::where("step", 0)->get();
                 return view("cert.requests")->with("collection", $requests);
                 break;
             case 'hod':
-                    // dd("here");
-                    if(Auth::user()->role != 3){
-                        return redirect("/")->with("success", "You have no access there");
-                    }
-                    $requests = Certificate::where("step", 2)->get();
-                    return view("cert.requests")->with("collection", $requests);
-                    break;
+                // dd("here");
+                if (Auth::user()->role != 3) {
+                    return redirect("/")->with("success", "You have no access there");
+                }
+                $requests = Certificate::where("step", 2)->get();
+                return view("cert.requests")->with("collection", $requests);
+                break;
             case 'library':
                 // dd("here");
-                if(Auth::user()->role != 4){
+                if (Auth::user()->role != 4) {
                     return redirect("/")->with("success", "You have no access there");
                 }
                 $requests = Certificate::where("step", 3)->get();
@@ -178,22 +184,22 @@ class CertificateController extends Controller
                 break;
             case 'accountant':
                 // dd("here");
-                if(Auth::user()->role != 5){
+                if (Auth::user()->role != 5) {
                     return redirect("/")->with("success", "You have no access there");
                 }
                 $requests = Certificate::where("step", 4)->get();
                 return view("cert.requests")->with("collection", $requests);
                 break;
-            
+
             case 'registrar':
                 // dd("here");
-                if(Auth::user()->role != 6){
+                if (Auth::user()->role != 6) {
                     return redirect("/")->with("success", "You have no access there");
                 }
                 $requests = Certificate::where("step", 5)->get();
                 return view("cert.requests")->with("collection", $requests);
                 break;
-    
+
 
             default:
                 return redirect("/");
@@ -201,7 +207,8 @@ class CertificateController extends Controller
         }
     }
 
-    public function move(Request $request){
+    public function move(Request $request)
+    {
         // dd($request->userid);
         $certificate = Certificate::where("userid", $request->userid)->first();
         $certificate->step = $request->role;

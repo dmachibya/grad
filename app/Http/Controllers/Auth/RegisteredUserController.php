@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'admission' => 'string|max:20',
             'level' => 'string|max:5',
             'course' => 'string|max:255',
+            'department' => 'string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -54,6 +55,7 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
             'level' => $request->level,
             'course' => $request->course,
+            'department' => $request->course,
             'email' => $request->email,
             'token' => $request->token,
             'password' => Hash::make($request->password),
