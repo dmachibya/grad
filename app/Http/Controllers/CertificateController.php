@@ -23,6 +23,12 @@ class CertificateController extends Controller
 
         // dd(count($users));
         switch ($role) {
+            case 0:
+                return view("cert.dashboard_student");
+                break;
+            case 1:
+                return view("cert.dashboard_student");
+                break;
             case 2:
                 return view("cert.dashboard_office");
                 break;
@@ -43,7 +49,7 @@ class CertificateController extends Controller
                 return view("other.home");
                 break;
             default:
-                return view("cert.dashboard_student");
+                return view("cert.dashboard_office");
                 break;
         }
 
@@ -71,8 +77,13 @@ class CertificateController extends Controller
     public function certificates()
     {
 
-        $certs = Certificate::all();
-        return view("cert.home")->with("collection", $certs);
+        $certs = Certificate::where("userid", Auth::user()->id)->get();
+        if (count($certs) > 0) {
+            $status = "processing";
+        } else {
+            $status = "no";
+        }
+        return view("cert.home")->with("status", $status);
     }
 
     public function process_certificates()

@@ -56,7 +56,7 @@
                                 
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/hod">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/process">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -138,7 +138,7 @@
                         Dashboard
                 </h1>
                 <a href="/process/certificates" class="inline-block px-6 py-2 bg-blue-500 text-white rounded-md">Certificate Requests</a>
-                <a href="/process/clearances" class="inline-block px-6 py-2 bg-green-500 text-white rounded-md">Clearance Requests</a>
+                <a href="/clearance/process" class="inline-block px-6 py-2 bg-green-500 text-white rounded-md">Clearance Requests</a>
 
 
             </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\ClearanceController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
+use App\Models\Clearance;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,9 @@ Route::get('/', function () {
 Route::get('/home', [CertificateController::class, 'index']);
 Route::get('/certificates', [CertificateController::class, 'certificates'])->middleware("student");
 Route::get('/process/certificates', [CertificateController::class, 'process_certificates'])->middleware("officer");
-Route::get('/process/clearances', [CertificateController::class, 'process_clearances'])->middleware("officer");
+Route::get('/process/clearances', function () {
+    return redirect("/clearance/process");
+})->middleware("officer");
 
 
 Route::post('/certificate/create', [CertificateController::class, 'create'])->middleware("student");
@@ -44,8 +47,8 @@ Route::post('/admin/role/', [CertificateController::class, 'role'])->middleware(
 Route::post('/clearance/move', [ClearanceController::class, 'move'])->middleware("officer");
 Route::get('/clearance/new', [ClearanceController::class, 'clearance_new'])->middleware("student");
 Route::post('/clearance/start', [ClearanceController::class, 'clearance_start'])->middleware("student");
+Route::get('/clearance/process', [ClearanceController::class, 'process'])->middleware("officer");
 Route::get('/clearance/{who}', [ClearanceController::class, 'who'])->middleware("officer");
-
 //more
 Route::get('/admin/courses', [CourseController::class, 'index'])->middleware("admin");
 Route::get('/admin/users', [CourseController::class, 'users'])->middleware("admin");
@@ -54,6 +57,8 @@ Route::post('/admin/department/create', [DepartmentController::class, 'create'])
 Route::post('/admin/course/create', [CourseController::class, 'create'])->middleware("admin");
 Route::post('/admin/department/delete/{id}', [DepartmentController::class, 'delete'])->middleware("admin");
 Route::post('/admin/course/delete/{id}', [CourseController::class, 'delete'])->middleware("admin");
+
+Route::get("/confirm/print", [ClearanceController::class, 'output'])->middleware("auth");
 
 Route::get("/logout", function () {
     Auth::logout();

@@ -24,13 +24,12 @@
                                {{csrf_field()}}
                                     <input type="hidden" name="user_email" value="{{$item->email}}">
                                     <select name="role" id="role">
-                                        <option value="1">Student</option>
-                                        <option value="2">Lecturer</option>
-                                        <option value="3">HOD</option>
-                                        <option value="4">Librarian</option>
-                                        <option value="5">Accountant</option>
-                                        <option value="6">Registrar</option>
-                                        <option value="7">Admin</option>
+                                        @php
+                                            $roles = DB::select('select * from roles')
+                                        @endphp
+                                        @foreach ($roles as $role)
+                                            <option value="{{$role->number}}">{{$role->role_name}}</option>
+                                        @endforeach
                                     </select>
                                     <button type="submit" class="bg-blue-500 px-6 py-2 rounded-lg text-white">Change</button>
                                 </form>

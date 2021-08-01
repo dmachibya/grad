@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
         ]);
         // dd("here");
         if($request->role == NULL){
-            $request->role = 0;
+            $request->role = 1;
         }
         $user = User::create([
             'name' => $request->name,

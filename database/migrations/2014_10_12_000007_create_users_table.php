@@ -17,14 +17,14 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('admission', 15)->nullable();
-            $table->string('level',4)->nullable();
-            $table->string('course',100)->nullable();
-            $table->string('department',100)->nullable();
+            $table->string('level', 4)->nullable();
+            $table->string('course', 100)->nullable();
+            $table->string('department', 100)->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('token', 255)->nullable();
-            $table->integer('role')->default(0);
+            $table->integer('role')->default(1);
             $table->integer('clearance_step')->default(0);
             $table->integer('certificate_step')->default(0);
             $table->rememberToken();

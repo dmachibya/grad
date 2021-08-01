@@ -47,12 +47,10 @@
                             </span>
                             <span class="mx-2 text-sm font-normal">
                                 Certification Requests
-                                <span class="p-1 ml-4 rounded-lg w-4 h-2 bg-gray-200 text-gray-400 text-xs">
-                                    0
-                                </span>
+                                
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/new">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -61,9 +59,7 @@
                             </span>
                             <span class="mx-2 text-sm font-normal">
                                 Clearance Form
-                                <span class="p-1 ml-4 rounded-lg w-4 h-2 bg-gray-200 text-gray-400 text-xs">
-                                    0
-                                </span>
+                                
                             </span>
                         </a>
                         <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="#">
@@ -155,7 +151,7 @@
                         <thead class="border-b border-solid border-gray-300 py-4 font-bold">
                             <td class="w-1/6">S/No.</td>
                             <td class="w-2/6">Responsible Officer</td>
-                            <td class="w-2/6">Remarks</td>
+                            <td class="w-2/6"></td>
                             <td class="w-1/6">Status</td>
                         </thead>
                         <tbody>
@@ -164,16 +160,30 @@
                                 <td class="w-2/6">Head of Department</td>
                                 <td class="w-2/6">
                                     @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 1]);
+                                        $clear = DB::select('select * from clearances where userid = ?', [Auth::user()->id]);
                                         if(count($clear)>0){
                                             $isClear = true;
                                             // dd("more");
                                         }else {
                                             // dd("less");
+                                            DB::insert('insert into clearances (userid, step, status) values (?, ?, ?)', [Auth::user()->id, '0', '1']);
 
                                             $isClear = false;
                                         }
+                                        $step = $clear[0]->step;
+                                        $status = $clear[0]->status;
+                                        
+                                        $hod_accepted = [3,4,5,6,7,8,9,10,11,12,13,14];
+                                        $clearHOD = "Unprocessed";
+                                        $clearHOD = "Not approved";
 
+                                        foreach ($hod_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clearHOD = "Approved";
+                                            }
+                                        }
+                                        
                                     @endphp
 
                                     @if ($isClear)
@@ -181,21 +191,7 @@
                                     @endif
                                 </td>
                                 <td class="w-1/6">
-                                    @if ($isClear)
-                                        @switch($clear[0]->status)
-                                            @case(1)
-                                                approved
-                                                @break
-                                            @case(2)
-                                                denied
-                                                @break
-                                            @default
-                                                unprocessed
-                                        @endswitch
-                                    @else
-                                        unprocessed
-
-                                    @endif
+                                    {{$clearHOD}}
                                 </td>
                             </tr>
                             {{-- head of department general --}}
@@ -203,36 +199,25 @@
                                 <td class="w-1/6">2</td>
                                 <td class="w-2/6">Head of Department GST</td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 2]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                    
+                                
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                    @php
+                                     $hodgst_accepted = [4,8,5,6,7,9,10,11,12,13,14];
+                                        $clearHODGST = "Unprocessed";
+                                        $clearHOD = "Not approved";
 
-                                @endif
+                                        foreach ($hodgst_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clearHODGST = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clearHODGST}}
+
                                 </td>
                             </tr>
                             {{-- workshop manager --}}
@@ -240,36 +225,22 @@
                                 <td class="w-1/6">3</td>
                                 <td class="w-2/6">Workshop Managers Concerned</td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 3]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [4,6,9,10,11,12,13,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
 
@@ -278,36 +249,22 @@
                                 <td class="w-1/6">4</td>
                                 <td class="w-2/6">Classmaster </td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 4]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [4,6,10,11,12,13,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
                             {{-- workshop manager --}}
@@ -315,73 +272,45 @@
                                 <td class="w-1/6">5</td>
                                 <td class="w-2/6">Librarian </td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 5]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [4,6,11,12,13,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
                             {{-- workshop manager --}}
                             <tr class="bg-gray-200 py-2">
                                 <td class="w-1/6">6</td>
                                 <td class="w-2/6">Sports Master </td>
-                                <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 6]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                               <td class="w-2/6">
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [6,11,12,13,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
 
@@ -390,36 +319,22 @@
                                 <td class="w-1/6">7</td>
                                 <td class="w-2/6">Cateress </td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 7]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [6,12,13,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
 
@@ -428,36 +343,22 @@
                                 <td class="w-1/6">8</td>
                                 <td class="w-2/6">Waden/Matron</td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 8]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [6,13,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
                             {{-- workshop manager --}}
@@ -465,36 +366,22 @@
                                 <td class="w-1/6">9</td>
                                 <td class="w-2/6">Registrar</td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 9]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [6,14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
                             {{-- workshop manager --}}
@@ -502,42 +389,42 @@
                                 <td class="w-1/6">10</td>
                                 <td class="w-2/6">Bursar</td>
                                 <td class="w-2/6">
-                                    @php
-                                        $clear = DB::select('select * from clearances where userid = ? AND step = ?', [Auth::user()->id, 10]);
-                                        if(count($clear)>0){
-                                            $isClear = true;
-                                        }else {
-                                            $isClear = false;
-                                        }
-
-                                    @endphp
-
-                                @if ($isClear)
-                                {{$clear[0]->remarks}}
-                                @endif
+                                   
                                 </td>
                                 <td class="w-1/6">
-                                @if ($isClear)
-                                    @switch($clear[0]->status)
-                                        @case(1)
-                                            approved
-                                            @break
-                                        @case(2)
-                                            denied
-                                            @break
-                                        @default
-                                            unprocessed
-                                    @endswitch
-                                @else
-                                    unprocessed
+                                     @php
+                                     $hod_workshop_accepted = [14];
+                                        $clear_workshop = "Unprocessed";
 
-                                @endif
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_workshop = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                                    {{$clear_workshop}}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                 @php
+                                     $hod_workshop_accepted = [14];
+                                        $clear_end = "Unprocessed";
 
+                                        foreach ($hod_workshop_accepted as $key => $value) {
+                                            # code...
+                                            if($value == $step && $status == 1){
+                                                $clear_end = "Approved";
+                                            }
+                                        }   
+                                    @endphp
+
+                @if ($clear_end == "Approved")
+                <a href="/confirm/print" class="inline-block my-4 px-8 py-2 rounded bg-blue-500 text-white hover:bg-blue-400">Print Form</a>
+                @endif
             </div>
         </div>
     </div>

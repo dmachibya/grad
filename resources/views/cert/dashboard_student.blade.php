@@ -28,7 +28,7 @@
             <div class="bg-white h-full dark:bg-gray-700">
                 <div class="flex items-center justify-start pt-6 ml-8">
                     <p class="font-bold dark:text-white text-xl">
-                        Graduate information Systemsss
+                        Graduate information System
                     </p>
                 </div>
                 <nav class="mt-6">
@@ -53,12 +53,10 @@
                             </span>
                             <span class="mx-2 text-sm font-normal">
                                 Certification Requests
-                                <span class="p-1 ml-4 rounded-lg w-4 h-2 bg-gray-200 text-gray-400 text-xs">
-                                    0
-                                </span>
+                                
                             </span>
                         </a>
-                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance">
+                        <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="/clearance/new">
                             <span class="text-left">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
@@ -67,9 +65,7 @@
                             </span>
                             <span class="mx-2 text-sm font-normal">
                                 Clearance Form
-                                <span class="p-1 ml-4 rounded-lg w-4 h-2 bg-gray-200 text-gray-400 text-xs">
-                                    0
-                                </span>
+                                
                             </span>
                         </a>
                         <a class="w-full text-gray-400 flex items-center pl-6 p-2 my-2 transition-colors duration-200 justify-start hover:text-gray-800 border-l-4 border-transparent" href="#">
@@ -140,16 +136,29 @@
                         Welcome {{Auth::user()->name}}
                     @endif
                     </h1>
-                    <h2 class="text-md text-gray-600">
-                    This is Graduates' information system. To begin request a Certificate Below
-                    </h2>
-                    <div class="flex my-6 items-center w-full space-y-4 md:space-x-4 md:space-y-0 flex-col md:flex-row">
-                        <a href="/certificates/new" class="inline-block items-center px-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">
-                            <span>+</span>
-                            <span class="mx-1">Request Certificate</span>
-                        </a>
+                    @php
+                        $req = DB::select('select * from certificates where userid = ?', [Auth::user()->id]);
+                        if(count($req)>=1){
+                            $status = "processed";
+                        }else {
+                            $status = "no";
+                        }    
+                    @endphp
+                    @if ($status == "no")
+                        <h2 class="text-md text-gray-600">
+                        This is Graduates' information system. To begin request a Certificate Below
+                        </h2>
+                        <div class="flex my-6 items-center w-full space-y-4 md:space-x-4 md:space-y-0 flex-col md:flex-row">
+                            <a href="/certificates/new" class="inline-block items-center px-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">
+                                <span>+</span>
+                                <span class="mx-1">Request Certificate</span>
+                            </a>
+                    @else
+                         <h2 class="text-md text-green-600 my-4">
+                        Your request is being processed, you will notified.
+                        </h2>
+                    @endif
                         <a href="/clearance/new" class="inline-block items-center px-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-green-600 rounded-md dark:bg-gray-800 hover:bg-green-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">
-                            <span>+</span>
                             <span class="mx-1">Clearance form</span>
                         </a>
                     </div>

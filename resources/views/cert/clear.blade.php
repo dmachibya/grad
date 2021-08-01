@@ -141,7 +141,7 @@
                                     <input type="hidden" name="userid" value="{{$item->userid}}">
                                     <input type="hidden" name="role" value="{{Auth::user()->role}}">
                                     <input type="hidden" name="status" value="1">
-                                    <button type="submit" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Approve</button>
+                                    <button type="submit" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Deny</button>
                                 </form>
                                 {{-- <a href="/certificate/delete/{{$item->id}}" class="my-1 inline-block px-6 py-2 bg-red-600 text-white rounded-md">Deny</a> --}}
                             </td>
