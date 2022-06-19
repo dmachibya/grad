@@ -45,11 +45,11 @@
             </div>
 
             <!-- Registration Token -->
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <x-label for="token" :value="__('Register Token')" />
 
                 <x-input id="token" class="block mt-1 w-full" type="text" name="token" :value="old('token')" required />
-            </div>
+            </div> --}}
 
             <!-- Password -->
             <div class="mt-4">

@@ -30,6 +30,7 @@
                 <x-label for="level" :value="__('Level')" />
 
                 <select name="level">
+                    <option value="1">Short Course</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -100,11 +101,11 @@
             </div>
 
             <!-- Registration Token -->
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <x-label for="token" :value="__('Register Token')" />
 
                 <x-input id="token" class="block mt-1 w-full" type="text" name="token" :value="old('token')" required />
-            </div>
+            </div> --}}
 
             <!-- Password -->
             <div class="mt-4">

@@ -161,17 +161,20 @@
                                 <td class="w-2/6">
                                     @php
                                         $clear = DB::select('select * from clearances where userid = ?', [Auth::user()->id]);
+                                        $step = $clear[0]->step;
+                                        $status = $clear[0]->status;
+
                                         if(count($clear)>0){
                                             $isClear = true;
                                             // dd("more");
                                         }else {
                                             // dd("less");
                                             DB::insert('insert into clearances (userid, step, status) values (?, ?, ?)', [Auth::user()->id, '0', '1']);
-
+                                            $step = 0;//;
+                                            $status = 0;
                                             $isClear = false;
                                         }
-                                        $step = $clear[0]->step;
-                                        $status = $clear[0]->status;
+                                       
                                         
                                         $hod_accepted = [3,4,5,6,7,8,9,10,11,12,13,14];
                                         $clearHOD = "Unprocessed";

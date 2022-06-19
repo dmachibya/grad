@@ -7,6 +7,7 @@ use App\Http\Controllers\ClearanceController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\TranscriptController;
 use App\Models\Clearance;
 
 /*
@@ -25,12 +26,19 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [CertificateController::class, 'index']);
+
+Route::get('/transcript', [CertificateController::class, 'index']);
+Route::get('/transcript/new', [TranscriptController::class, 'new_form']);
+
 Route::get('/certificates', [CertificateController::class, 'certificates'])->middleware("student");
 Route::get('/process/certificates', [CertificateController::class, 'process_certificates'])->middleware("officer");
 Route::get('/process/clearances', function () {
     return redirect("/clearance/process");
 })->middleware("officer");
 
+Route::get('/hash/{password}', function($password){
+    return Hash::make($password);
+});
 
 Route::post('/certificate/create', [CertificateController::class, 'create'])->middleware("student");
 
