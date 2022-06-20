@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('course', 100)->nullable();
             $table->string('department', 100)->nullable();
             $table->string('email')->unique();
+            $table->string('stage', 1)->default("0");
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('token', 255)->nullable();

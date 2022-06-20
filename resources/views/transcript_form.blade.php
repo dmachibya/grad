@@ -1,24 +1,58 @@
 @extends('master')
 
 @section('content')
-<div class="px-8 py-6 bg-white bg-shadown">
-    <form method="POST" action="/transcript/create">
+@php
+$transcript = DB::select('select * from transcripts where userid = ?',
+[Auth::user()->id]);
+
+
+$hasFilled = false;
+if(count($transcript)>0){
+$hasFilled = true;
+// echo "found---";
+}
+@endphp
+@if ($hasFilled)
+<h1 class="text-2xl font-bold">NB: You have filled this form, you now can print it only</h1>
+<button type="button" class=" my-4 px-6 py-2 rounded-md bg-green-500 text-white hover:bg-green-400"
+    onclick="printJS({ printable: 'printJS-form', type: 'html', header: 'Alumni Form' })">
+    Print Form
+</button>
+@endif
+<div class="px-8 py-6 bg-white bg-shadown" x-data="{name:'{{$hasFilled ? $transcript[0]->name : ''}}'}">
+    <form method="POST" action="/transcript/create" id="printJS-form">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li class="text-red-500">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         {{ csrf_field() }}
         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
+                @if ($hasFilled)
+                {{-- Values; --}}
+
+                @endif
+
                 <label class="text-gray-700 dark:text-gray-200" for="username">Full Name</label>
-                <input name="name" id="username" type="text"
+                <input name="name" disabled={{$hasFilled}} type="text"
+                    value="{{$hasFilled ? $transcript[0]->name : ''}}" x-model="name"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 dark:text-gray-200" for="username">Admission</label>
-                <input name="admission" id="username" type="text"
+                <input name="admission" disabled={{$hasFilled}} value="{{$hasFilled ? $transcript[0]->admission : ''}}"
+                    type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
 
             <div>
                 <label class="text-gray-700 dark:text-gray-200" for="username">Programme</label>
-                <select name="course">
+                <select disabled={{$hasFilled}} name="programme">
                     @php
 
                     $courses = DB::select('select * from courses');
@@ -34,7 +68,9 @@
                     @endphp
                     @if ($hasData)
                     @foreach ($courses as $course)
-                    <option value="{{$course->id}}">{{$course->course_name}}</option>
+                    <option {{ $hasFilled ? $transcript[0]->programme == $course->course_name
+                        ? "selected" : "" : ""}} value="{{$course->course_name}}">{{$course->course_name}}
+                    </option>
 
                     @endforeach
                     @endif
@@ -54,10 +90,14 @@
                             <td class="px-6 py-4 text-sm text-gray-500">1</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">NAME AS PER CSEE*</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="name_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="check_csee"
+                                    checked="{{$hasFilled ? $transcript[0]->check_csee == 1 ? true : false : false}}"
+                                    value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="name_incorrect">
+                                <input disabled={{$hasFilled}} type="radio"
+                                    checked="{{$hasFilled ? $transcript[0]->check_csee == 1 ? true : false : false}}"
+                                    name="check_csee" value="0">
 
                             </td>
                         </tr>
@@ -65,10 +105,14 @@
                             <td class="px-6 py-4 text-sm text-gray-500">2</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">ADMISSION NUMBER</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="admission_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="admission_check"
+                                    checked="{{$hasFilled ? $transcript[0]->admission_check == 1 ? true : false : false}}"
+                                    value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="admission_incorrect">
+                                <input disabled={{$hasFilled}} type="radio" name="admission_check"
+                                    checked="{{$hasFilled ? $transcript[0]->admission_check == 1 ? true : false : false}}"
+                                    value="0">
 
                             </td>
                         </tr>
@@ -76,10 +120,14 @@
                             <td class="px-6 py-4 text-sm text-gray-500">3</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">DATE OF GRADUATION</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="date_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="date_check"
+                                    checked="{{$hasFilled ? $transcript[0]->date_check == 1 ? true : false : false}}"
+                                    value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="date_incorrect">
+                                <input disabled={{$hasFilled}} type="radio" name="date_check"
+                                    checked="{{$hasFilled ? $transcript[0]->date_check == 1 ? true : false : false}}"
+                                    value="0">
 
                             </td>
                         </tr>
@@ -87,10 +135,14 @@
                             <td class="px-6 py-4 text-sm text-gray-500">4</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">PROGRAMME NAME</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="programme_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="programme_check"
+                                    checked="{{$hasFilled ? $transcript[0]->programme_check == 1 ? true : false : false}}"
+                                    value="">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="programme_incorrect">
+                                <input disabled={{$hasFilled}} type="radio" name="programme_check"
+                                    checked="{{$hasFilled ? $transcript[0]->programme_check == 1 ? true : false : false}}"
+                                    value="0">
 
                             </td>
                         </tr>
@@ -100,10 +152,14 @@
                                 Ordinary
                                 Diploma / Bachelor)</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="award_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="award_check"
+                                    checked="{{$hasFilled ? $transcript[0]->award_check == 1 ? true : false : false}}"
+                                    value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="award_incorrect">
+                                <input disabled={{$hasFilled}} type="radio"
+                                    checked="{{$hasFilled ? $transcript[0]->award_check == 1 ? true : false : false}}"
+                                    name="award_check" value="0">
 
                             </td>
                         </tr>
@@ -111,10 +167,14 @@
                             <td class="px-6 py-4 text-sm text-gray-500">6</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">GPA</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="gpa_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="gpa_check"
+                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
+                                    value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="gpa_incorrect">
+                                <input disabled={{$hasFilled}} type="radio" name="grade_check"
+                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
+                                    value="0">
 
                             </td>
                         </tr>
@@ -122,10 +182,14 @@
                             <td class="px-6 py-4 text-sm text-gray-500">7</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">AWARD GRADE / CLASS</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="grade_correct">
+                                <input disabled={{$hasFilled}} type="radio" name="grade_check"
+                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
+                                    value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input type="checkbox" name="grade_incorrect">
+                                <input disabled={{$hasFilled}} type="radio" name="grade_check"
+                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
+                                    value="0">
 
                             </td>
                         </tr>
@@ -138,7 +202,7 @@
                     Declaration
                 </h2>
                 <ol>
-                    <li>1. I <span id="name_1"></span> hereby declare that:
+                    <li>1. I <span class="name_1 font-bold" x-text="name"></span> hereby declare that:
                         <ol type="a">
                             <li>a) The details finished above are true and correct to the best of my knowledge and
                                 belief.</li>
@@ -150,7 +214,9 @@
                         </ol>
                     </li>
                     <br>
-                    <li>2. I ..........................hereby ACCEPT/DON'T ACCEPT academic certificate and transcript
+                    <li>2. I <span class="name_1 font-bold" x-text="name"></span> hereby ACCEPT/DON'T ACCEPT academic
+                        certificate and
+                        transcript
                         issued to me. </li>
                     <br>
                     <br>
@@ -159,9 +225,11 @@
                             <div>
                                 Signature: .............................
                             </div>
-                            <div>
-                                Date: .............................
-                            </div>
+
+                        </div>
+                        <br>
+                        <div>
+                            Date: .............................
                         </div>
 
                     </li>
@@ -169,9 +237,17 @@
             </div>
             <div class="col-span-2">
 
+                @if ($hasFilled)
+
+                @else
                 <input type="submit" class="px-4 py-2 bg-blue-500 text-white my-2" value="Submit">
+                @endif
             </div>
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{asset('js/print.min.js')}}"></script>
 @endsection

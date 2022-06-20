@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Certificate;
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 
 class CertificateController extends Controller
 {
     //
+
 
     public function dashboard()
     {
@@ -76,6 +78,22 @@ class CertificateController extends Controller
 
     public function certificates()
     {
+        $stage = 0;
+        $clear = DB::select(
+            'select * from transcripts where userid = ?',
+            [Auth::user()->id]
+        );
+
+        // $isClear = false;
+
+        if (count($clear) > 0) {
+            $stage = 1;
+        }
+
+        if ($stage == 0) {
+            return redirect("/dashboard")->with("warning", "you need to complete all prior processes first");
+        }
+
 
         $certs = Certificate::where("userid", Auth::user()->id)->get();
         if (count($certs) > 0) {
@@ -110,6 +128,7 @@ class CertificateController extends Controller
             default:
                 # code...
                 break;
+                return redirect("/");
         }
     }
 

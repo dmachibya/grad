@@ -9,7 +9,14 @@ use Illuminate\Support\Facades\Auth;
 class ClearanceController extends Controller
 {
     //
-
+    public function index()
+    {
+        $clearances = Clearance::where('userid', Auth::user()->id)->get();
+        if (count($clearances) >= 1) {
+            return redirect("/clearance/new");
+        }
+        return view("clearance_begin");
+    }
     public function clearance_new()
     {
         return view("clearance_new");
@@ -19,6 +26,7 @@ class ClearanceController extends Controller
         $clearance = new Clearance();
         $clearance->userid = $request->userid;
         $clearance->save();
+
 
         return back();
     }
@@ -61,6 +69,7 @@ class ClearanceController extends Controller
 
             default:
                 # code...
+                return redirect("/");
                 break;
         }
     }
