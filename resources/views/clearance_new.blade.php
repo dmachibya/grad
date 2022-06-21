@@ -217,7 +217,7 @@
                     <td class="w-1/6">
                         @php
                         $cateress = [6,12,13,14];
-                        $clear_workshop = "Unprocessed";
+                        $clear_cateress = "Unprocessed";
 
                         foreach ($cateress as $key => $value) {
                         # code...
@@ -226,7 +226,7 @@
                         }
                         }
                         if($step == 12 && $status == 2){
-                        $clear_sports = "Denied";
+                        $clear_cateress = "Denied";
                         }
                         @endphp
 
@@ -244,7 +244,7 @@
                     <td class="w-1/6">
                         @php
                         $waden = [6,13,14];
-                        $clear_workshop = "Unprocessed";
+                        $clear_waden = "Unprocessed";
 
                         foreach ($waden as $key => $value) {
                         # code...
