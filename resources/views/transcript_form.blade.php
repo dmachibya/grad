@@ -39,20 +39,20 @@ $hasFilled = true;
                 @endif
 
                 <label class="text-gray-700 dark:text-gray-200" for="username">Full Name</label>
-                <input name="name" disabled={{$hasFilled}} type="text"
+                <input name="name" @if ($hasFilled) disabled @endif type="text"
                     value="{{$hasFilled ? $transcript[0]->name : ''}}" x-model="name"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 dark:text-gray-200" for="username">Admission</label>
-                <input name="admission" disabled={{$hasFilled}} value="{{$hasFilled ? $transcript[0]->admission : ''}}"
-                    type="text"
+                <input name="admission" @if($hasFilled) disabled @endif
+                    value="{{$hasFilled ? $transcript[0]->admission : ''}}" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
 
             <div>
                 <label class="text-gray-700 dark:text-gray-200" for="username">Programme</label>
-                <select disabled={{$hasFilled}} name="programme">
+                <select @if($hasFilled) disabled @endif name="programme">
                     @php
 
                     $courses = DB::select('select * from courses');
@@ -90,14 +90,14 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">1</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">NAME AS PER CSEE*</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="check_csee"
-                                    checked="{{$hasFilled ? $transcript[0]->check_csee == 1 ? true : false : false}}"
-                                    value="1">
+                                <input @if($hasFilled)disabled @endif type="radio" name="check_csee" @if($hasFilled)
+                                    @if($transcript[0]->check_csee == 1) checked @endif @endif
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio"
-                                    checked="{{$hasFilled ? $transcript[0]->check_csee == 1 ? true : false : false}}"
-                                    name="check_csee" value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" @if($hasFilled)
+                                    @if($transcript[0]->check_csee == 0) checked @endif @endif
+                                name="check_csee" value="0">
 
                             </td>
                         </tr>
@@ -105,14 +105,14 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">2</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">ADMISSION NUMBER</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="admission_check"
-                                    checked="{{$hasFilled ? $transcript[0]->admission_check == 1 ? true : false : false}}"
-                                    value="1">
+                                <input @if($hasFilled)disabled @endif type="radio" name="admission_check"
+                                    @if($hasFilled) @if($transcript[0]->admission_check == 1) checked @endif @endif
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="admission_check"
-                                    checked="{{$hasFilled ? $transcript[0]->admission_check == 1 ? true : false : false}}"
-                                    value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" name="admission_check"
+                                    @if($hasFilled) @if($transcript[0]->admission_check == 0) checked @endif @endif
+                                value="0">
 
                             </td>
                         </tr>
@@ -120,14 +120,14 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">3</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">DATE OF GRADUATION</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="date_check"
-                                    checked="{{$hasFilled ? $transcript[0]->date_check == 1 ? true : false : false}}"
-                                    value="1">
+                                <input @if($hasFilled)disabled @endif type="radio" name="date_check" @if($hasFilled)
+                                    @if($transcript[0]->date_check == 1) checked @endif @endif
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="date_check"
-                                    checked="{{$hasFilled ? $transcript[0]->date_check == 1 ? true : false : false}}"
-                                    value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" name="date_check" @if($hasFilled)
+                                    @if($transcript[0]->date_check == 0) checked @endif @endif
+                                value="0">
 
                             </td>
                         </tr>
@@ -135,14 +135,14 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">4</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">PROGRAMME NAME</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="programme_check"
-                                    checked="{{$hasFilled ? $transcript[0]->programme_check == 1 ? true : false : false}}"
-                                    value="">
+                                <input @if($hasFilled)disabled @endif type="radio" name="programme_check"
+                                    @if($hasFilled) @if($transcript[0]->programme_check == 1) checked @endif @endif
+                                value="">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="programme_check"
-                                    checked="{{$hasFilled ? $transcript[0]->programme_check == 1 ? true : false : false}}"
-                                    value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" name="programme_check"
+                                    @if($hasFilled) @if($transcript[0]->programme_check == 0) checked @endif @endif
+                                value="0">
 
                             </td>
                         </tr>
@@ -152,14 +152,14 @@ $hasFilled = true;
                                 Ordinary
                                 Diploma / Bachelor)</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="award_check"
-                                    checked="{{$hasFilled ? $transcript[0]->award_check == 1 ? true : false : false}}"
-                                    value="1">
+                                <input @if($hasFilled)disabled @endif type="radio" name="award_check" @if($hasFilled)
+                                    @if($transcript[0]->award_check == 1) checked @endif @endif
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio"
-                                    checked="{{$hasFilled ? $transcript[0]->award_check == 1 ? true : false : false}}"
-                                    name="award_check" value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" @if($hasFilled)
+                                    @if($transcript[0]->award_check == 0) checked @endif @endif
+                                name="award_check" value="0">
 
                             </td>
                         </tr>
@@ -167,14 +167,14 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">6</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">GPA</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="gpa_check"
-                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
-                                    value="1">
+                                <input @if($hasFilled)disabled @endif type="radio" name="gpa_check" @if($hasFilled)
+                                    @if($transcript[0]->gpa_check == 1) checked @endif @endif
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="grade_check"
-                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
-                                    value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" name="grade_check" @if($hasFilled)
+                                    @if($transcript[0]->gpa_check == 0) checked @endif @endif
+                                value="0">
 
                             </td>
                         </tr>
@@ -182,14 +182,14 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">7</td>
                             <td class="px-6 py-4 text-sm text-gray-500 text-left">AWARD GRADE / CLASS</td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="grade_check"
-                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
-                                    value="1">
+                                <input @if($hasFilled)disabled @endif type="radio" name="grade_check" @if($hasFilled)
+                                    @if($transcript[0]->grade_check == 1) checked @endif @endif
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <input disabled={{$hasFilled}} type="radio" name="grade_check"
-                                    checked="{{$hasFilled ? $transcript[0]->grade_check == 1 ? true : false : false}}"
-                                    value="0">
+                                <input @if($hasFilled)disabled @endif type="radio" name="grade_check" @if($hasFilled)
+                                    @if($transcript[0]->grade_check == 0) checked @endif @endif
+                                value="0">
 
                             </td>
                         </tr>
@@ -235,12 +235,11 @@ $hasFilled = true;
                     </li>
                 </ol>
             </div>
-            <div class="col-span-2">
+            <div class="col-span-2 pb-24">
 
-                @if ($hasFilled)
-
-                @else
-                <input type="submit" class="px-4 py-2 bg-blue-500 text-white my-2" value="Submit">
+                @if(!$hasFilled)
+                <input @if($hasFilled) disabled @endif type="submit" class="px-4 py-2 bg-blue-500 text-white my-2"
+                    value="Submit">
                 @endif
             </div>
         </div>

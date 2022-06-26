@@ -22,7 +22,7 @@ $hasFilled = true;
 @endif
 
 <h1 class="text-4xl text-center">Alumni Form</h1>
-<div class="px-8 py-6 bg-white bg-shadown">
+<div class="px-8 py-6 bg-white bg-shadown pb-48">
     <form method="POST" id="printJS-form" action="/alumni/create">
         {{ csrf_field() }}
         @if ($errors->any())
