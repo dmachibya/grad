@@ -137,7 +137,7 @@ $hasFilled = true;
                             <td class="px-6 py-4 text-sm text-gray-500">
                                 <input @if($hasFilled)disabled @endif type="radio" name="programme_check"
                                     @if($hasFilled) @if($transcript[0]->programme_check == 1) checked @endif @endif
-                                value="">
+                                value="1">
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
                                 <input @if($hasFilled)disabled @endif type="radio" name="programme_check"
