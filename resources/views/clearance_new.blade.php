@@ -2,12 +2,9 @@
 
 @section('content')
 <div id="printJS-form" class="overflow-auto px-4 md:px-6">
-    <h1 class="text-4xl font-semibold text-gray-800 dark:text-white my-2">
+    <h1 style="text-align: center; font-size: 20px">
         Clearance Form
-
     </h1>
-
-
 
 
     <div class="w-full bg-white px-12 py-8 shadow-lg">
@@ -43,7 +40,7 @@
                         // }
 
 
-                        $hod_accepted = [3,4,8,5,6,7,9,10,11,12,13,14];
+                        $hod_accepted = [3,4,8,22,5,6,7,9,10,11,12,13,14];
                         // $clearHOD = "Unprocessed";
                         $clearHOD = "Not approved";
 
@@ -81,7 +78,7 @@
                     </td>
                     <td class="w-1/6">
                         @php
-                        $hodgst_accepted = [4,8,5,6,7,9,10,11,12,13,14];
+                        $hodgst_accepted = [4,8,5,22,6,7,9,10,11,12,13,14];
                         $clearHODGST = "Unprocessed";
                         // $clearHOD = "Not approved";
 
@@ -110,7 +107,30 @@
                     </td>
                     <td class="w-1/6">
                         @php
-                        $hod_workshop_accepted = [4,6,9,10,11,12,13,14];
+                        $hod_workshop_accepted = [4,6,9,10,11,22,12,13,14];
+                        $clear_workshop = "Unprocessed";
+
+                        foreach ($hod_workshop_accepted as $key => $value) {
+                        # code...
+                        if($value == $step){
+                        $clear_workshop = "Approved";
+                        }
+                        }
+                        if($step == 9 && $status == 2){
+                        $clear_workshop = "Denied";
+                        }
+                        @endphp
+
+                        {{$clear_workshop}}
+                <tr class="bg-gray-200 py-2">
+                    <td class="w-1/6">3</td>
+                    <td class="w-2/6">Laboratory Manager Concerned</td>
+                    <td class="w-2/6">
+
+                    </td>
+                    <td class="w-1/6">
+                        @php
+                        $hod_workshop_accepted = [4,6,9,10,11,12,22,13,14];
                         $clear_workshop = "Unprocessed";
 
                         foreach ($hod_workshop_accepted as $key => $value) {
@@ -333,10 +353,9 @@ $clear_sports = "Denied";
 @endphp
 
 @if ($clear_end == "Approved")
-<button type="button" class=" my-4 mx-12 px-6 py-2 rounded-md bg-green-500 text-white hover:bg-green-400"
-    onclick="printJS({ printable: 'printJS-form', type: 'html', header: 'Clearance Form' })">
+<a href="/clearance/output" class=" my-4 mx-12 px-6 py-2 rounded-md bg-green-500 text-white hover:bg-green-400">
     Print Form
-</button>
+</a>
 @endif
 
 @endsection
@@ -349,6 +368,40 @@ $clear_sports = "Denied";
     <span class="absolute top-0 right-2 text-3xl text-white" @click="message = false">&times;</span>
 </div>
 @endif
-<script src="{{asset('js/print.min.js')}}"></script>
+{{-- <script src="{{asset('js/print.min.js')}}"></script> --}}
+
+<script>
+    function callPrint(){
+        var myElem = document.getElementById('printJS-form');
+        PrintElem(myElem);
+    }
+
+    function PrintElem(elem)
+    {
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+    
+    mywindow.document.write(`<html>
+    
+    <head>
+        <title> ${document.title} </title>`);
+        mywindow.document.write(`
+    </head>
+    
+    <body>`);
+        mywindow.document.write('<h1>' + document.title + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write(`</body>
+    
+    </html>`);
+    
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+    
+    mywindow.print();
+    mywindow.close();
+    
+    return true;
+    }
+</script>
 
 @endsection

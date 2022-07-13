@@ -30,12 +30,43 @@ class ClearanceController extends Controller
 
         return back();
     }
+
+
     public function process()
     {
         $role = Auth::user()->role;
-        // dd("here");
+
+        // dd($role);
         switch ($role) {
             case '3':
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case 15:
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case 16:
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case '17':
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case '18':
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case '19':
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case '20':
+                return redirect("/clearance/hod");
+                // return "here";
+                break;
+            case '21':
                 return redirect("/clearance/hod");
                 // return "here";
                 break;
@@ -66,6 +97,9 @@ class ClearanceController extends Controller
             case '4':
                 return redirect("/clearance/librarian");
                 break;
+            case '22':
+                return redirect("/clearance/lab-manager");
+                break;
 
             default:
                 # code...
@@ -80,10 +114,43 @@ class ClearanceController extends Controller
             case 'hod':
                 // dd(Auth::user()->role);
 
-                if (Auth::user()->role != 3) {
+                // dd(Auth::user()->role);
+                if (
+                    Auth::user()->role == 0 || Auth::user()->role == 1 ||
+                    Auth::user()->role == 4 || Auth::user()->role == 5 ||
+                    Auth::user()->role == 6 ||
+                    Auth::user()->role == 7 || Auth::user()->role == 8 ||
+                    Auth::user()->role == 9 ||
+                    Auth::user()->role == 10 ||
+                    Auth::user()->role == 11 ||
+                    Auth::user()->role == 12 ||
+                    Auth::user()->role == 13 ||
+                    Auth::user()->role == 14 ||
+                    Auth::user()->role == 2
+                ) {
                     return redirect("/clearance/process");
                 }
-                $requests = Clearance::where("step", 0)->join("users", "clearances.userid", "=", "users.id")->get();
+
+                $dept = 1;
+                if (Auth::user()->role == '15') {
+                    $dept = 1;
+                } else if (Auth::user()->role == '16') {
+                    $dept = 2;
+                } else if (Auth::user()->role == '17') {
+                    $dept = 3;
+                } else if (Auth::user()->role == '18') {
+                    $dept = 4;
+                } else if (Auth::user()->role == '19') {
+                    $dept = 5;
+                } else if (Auth::user()->role == '20') {
+                    $dept = 7;
+                } else if (Auth::user()->role == '21') {
+                    $dept = 8;
+                }
+
+
+
+                $requests = Clearance::where("step", 0)->join("users", "clearances.userid", "=", "users.id")->where("users.department", $dept)->get();
 
                 // foreach ($requests as $key => $value) {
                 //     if($value->)
@@ -108,12 +175,21 @@ class ClearanceController extends Controller
 
                 return view("cert.clear")->with("collection", $requests);
                 break;
+            case 'lab-manager':
+                // dd("here");
+                if (Auth::user()->role != 22) {
+                    return redirect("/clearance/process");
+                }
+                $requests = Clearance::where("step", 9)->join("users", "clearances.userid", "=", "users.id")->get();
+
+                return view("cert.clear")->with("collection", $requests);
+                break;
             case 'classmaster':
                 // dd("here");
                 if (Auth::user()->role != 10) {
                     return redirect("/clearance/process");
                 }
-                $requests = Clearance::where("step", 9)->join("users", "clearances.userid", "=", "users.id")->get();
+                $requests = Clearance::where("step", 22)->join("users", "clearances.userid", "=", "users.id")->get();
 
                 return view("cert.clear")->with("collection", $requests);
                 break;
@@ -185,7 +261,23 @@ class ClearanceController extends Controller
         // dd($request->userid);
         $clear = Clearance::where("userid", ($request->userid))->first();
         // $clear->userid = $request->userid;
-        $clear->step = $request->role;
+        $step = Auth::user()->role;
+        if (Auth::user()->role == '15') {
+            $step = 3;
+        } else if (Auth::user()->role == '16') {
+            $step = 3;
+        } else if (Auth::user()->role == '17') {
+            $step = 3;
+        } else if (Auth::user()->role == '18') {
+            $step = 3;
+        } else if (Auth::user()->role == '19') {
+            $step = 3;
+        } else if (Auth::user()->role == '20') {
+            $step = 3;
+        } else if (Auth::user()->role == '21') {
+            $step = 3;
+        }
+        $clear->step = $step;
         // $clear->remarks = $request->remarks;
         $clear->status = $request->status;
         $clear->save();
@@ -206,6 +298,6 @@ class ClearanceController extends Controller
             return redirect("/");
         }
 
-        return view("other.output");
+        return view("output_clearance");
     }
 }

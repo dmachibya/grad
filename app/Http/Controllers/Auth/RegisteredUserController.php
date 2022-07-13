@@ -23,7 +23,8 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    public function create_staff(){
+    public function create_staff()
+    {
         return view("auth.register_staff");
     }
     /**
@@ -46,7 +47,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         // dd("here");
-        if($request->role == NULL){
+        if ($request->role == NULL) {
             $request->role = 1;
         }
         $user = User::create([
@@ -55,7 +56,7 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
             'level' => $request->level,
             'course' => $request->course,
-            'department' => $request->course,
+            'department' => $request->department,
             'email' => $request->email,
             // 'token' => $request->token,
             'password' => Hash::make($request->password),

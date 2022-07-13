@@ -22,6 +22,7 @@ class User extends Authenticatable
         'level',
         'role',
         'course',
+        'department',
         'email',
         'token',
         'password',

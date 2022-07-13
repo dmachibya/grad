@@ -14,11 +14,11 @@ $hasFilled = true;
 
 @endphp
 @if ($hasFilled)
-<h1 class="text-2xl font-bold">NB: You have filled this form, you now can print or update it</h1>
-<button type="button" class=" my-4 px-6 py-2 rounded-md bg-green-500 text-white hover:bg-green-400"
+<h1 class="text-2xl font-bold">NB: You have filled this form, you now can update it anytime</h1>
+{{-- <button type="button" class=" my-4 px-6 py-2 rounded-md bg-green-500 text-white hover:bg-green-400"
     onclick="printJS({ printable: 'printJS-form', type: 'html', header: 'Alumni Form' })">
     Print Form
-</button>
+</button> --}}
 @endif
 
 <h1 class="text-4xl text-center">Alumni Form</h1>

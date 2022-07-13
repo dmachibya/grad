@@ -69,6 +69,7 @@ Route::post('/clearance/move', [ClearanceController::class, 'move'])->middleware
 Route::get('/clearance/new', [ClearanceController::class, 'clearance_new'])->middleware("student");
 Route::post('/clearance/start', [ClearanceController::class, 'clearance_start'])->middleware("student");
 Route::get('/clearance/process', [ClearanceController::class, 'process'])->middleware("officer");
+Route::get('/clearance/output', [ClearanceController::class, 'output'])->middleware("student");
 Route::get('/clearance/{who}', [ClearanceController::class, 'who'])->middleware("officer");
 //more
 Route::get('/admin/courses', [CourseController::class, 'index'])->middleware("admin");
