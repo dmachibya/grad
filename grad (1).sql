@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 20, 2022 at 02:01 PM
+-- Generation Time: Jul 13, 2022 at 01:06 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -51,13 +51,6 @@ CREATE TABLE `alumnis` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `alumnis`
---
-
-INSERT INTO `alumnis` (`id`, `userid`, `name`, `admission`, `level`, `programme`, `address`, `country`, `gender`, `date_of_birth`, `address2`, `email`, `email2`, `phone`, `phone2`, `employment`, `job_title`, `employment_country`, `anything`, `created_at`, `updated_at`) VALUES
-(2, 7, 'qyfaz', 'noraq', '6', 'Computer Science', '77 White Old Court', 'Velit autem cupidit', 'male', '2003-01-21', 'Facilis accusamus be', 'vupadi@mailinator.com', 'cycojocev@mailinator.com', '+1 (351) 693-5955', '+1 (351) 693-5955', 'Dolorem eligendi vel', 'Deserunt ut et est a', 'Autem nostrud magnam', 'Exercitation pariatu', '2022-06-20 08:20:43', '2022-06-20 08:33:11');
-
 -- --------------------------------------------------------
 
 --
@@ -85,13 +78,6 @@ CREATE TABLE `certificates` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `certificates`
---
-
-INSERT INTO `certificates` (`id`, `userid`, `step`, `name`, `address`, `phone`, `email`, `date_of_birth`, `place_of_birth`, `grade`, `programme`, `year_of_admission`, `registration_number`, `year_of_graduation`, `form_date`, `passport_size`, `created_at`, `updated_at`) VALUES
-(1, 7, 0, 'hoxov', 'hipur@mailinator.com', 'Ocean Crawford', 'kikuseninu@mailinator.com', '1993-10-28', 'Jin Avila', 'on', 'Kirestin Huffman', '777', '19', '404', '2022-06-20', 'default.jpg', '2022-06-20 07:12:55', '2022-06-20 07:12:55');
-
 -- --------------------------------------------------------
 
 --
@@ -116,8 +102,10 @@ INSERT INTO `clearances` (`id`, `userid`, `step`, `remarks`, `status`, `created_
 (1, 2, 0, NULL, '1', NULL, NULL),
 (2, 3, 4, NULL, '1', NULL, '2022-06-20 03:47:56'),
 (3, 3, 0, NULL, NULL, '2022-06-20 03:03:32', '2022-06-20 03:03:32'),
-(4, 6, 0, NULL, '1', NULL, NULL),
-(5, 7, 14, NULL, '1', '2022-06-20 03:37:06', '2022-06-20 04:22:56');
+(4, 6, 14, NULL, '1', NULL, NULL),
+(5, 7, 1, NULL, '1', '2022-06-20 03:37:06', '2022-06-20 04:22:56'),
+(6, 24, 0, NULL, NULL, '2022-06-21 11:38:52', '2022-06-21 11:38:52'),
+(7, 27, 14, NULL, '1', '2022-07-13 08:33:55', '2022-07-13 09:27:04');
 
 -- --------------------------------------------------------
 
@@ -172,7 +160,14 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `department_name`, `created_at`, `updated_at`) VALUES
-(1, 'ICT', '2022-06-19 15:37:30', '2022-06-19 15:37:30');
+(1, 'ICT', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(2, 'MECHANICAL', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(3, 'ELECTRICAL', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(4, 'CIVIL', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(5, 'AUTOMOTIVE', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(6, 'GST', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(7, 'LABORATORY', '2022-06-19 15:37:30', '2022-06-19 15:37:30'),
+(8, 'RENEWABLE', '2022-06-19 15:37:30', '2022-06-19 15:37:30');
 
 -- --------------------------------------------------------
 
@@ -242,6 +237,7 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `number` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dept` int(2) NOT NULL DEFAULT '0',
   `role_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -251,21 +247,28 @@ CREATE TABLE `roles` (
 -- Dumping data for table `roles`
 --
 
-INSERT INTO `roles` (`id`, `number`, `role_name`, `created_at`, `updated_at`) VALUES
-(1, '1', 'Student', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(2, '2', 'Lecturer', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(3, '3', 'HOD', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(4, '4', 'Librarian', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(5, '5', 'Accountant', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(6, '6', 'Registrar', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(7, '7', 'Admin', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(8, '8', 'HOD GST', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(9, '9', 'Workshop Manager', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(10, '10', 'Classmaster', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(11, '11', 'Sport Master', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
-(12, '12', 'Cateress', '2022-06-20 03:06:18', '2022-06-20 03:06:18'),
-(13, '13', 'Waden / Matron', '2022-06-20 03:06:18', '2022-06-20 03:06:18'),
-(14, '14', 'Bursar', '2022-06-20 03:06:18', '2022-06-20 03:06:18');
+INSERT INTO `roles` (`id`, `number`, `dept`, `role_name`, `created_at`, `updated_at`) VALUES
+(1, '1', 0, 'Student', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(2, '2', 0, 'Lecturer', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(4, '4', 0, 'Librarian', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(5, '5', 0, 'Accountant', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(6, '6', 0, 'Registrar', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(7, '7', 0, 'Admin', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(8, '8', 0, 'HOD GST', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(9, '9', 0, 'Workshop Manager', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(10, '10', 0, 'Classmaster', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(11, '11', 0, 'Sport Master', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(12, '12', 0, 'Cateress', '2022-06-20 03:06:18', '2022-06-20 03:06:18'),
+(13, '13', 0, 'Waden / Matron', '2022-06-20 03:06:18', '2022-06-20 03:06:18'),
+(14, '14', 0, 'Bursar', '2022-06-20 03:06:18', '2022-06-20 03:06:18'),
+(15, '3', 1, 'HOD - ICT', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(16, '3', 2, 'HOD - MECHANICAL', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(17, '3', 3, 'HOD - ELECTRICAL', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(18, '3', 4, 'HOD - CIVIL', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(19, '3', 5, 'HOD - AUTOMOTIVE', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(20, '3', 7, 'HOD - LABORATORY', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(21, '3', 8, 'HOD - RENEWABLE', '2022-06-20 03:06:17', '2022-06-20 03:06:17'),
+(22, '15', 0, 'Laboratory Manager', '2022-06-20 03:06:17', '2022-06-20 03:06:17');
 
 -- --------------------------------------------------------
 
@@ -322,7 +325,7 @@ CREATE TABLE `transcripts` (
 --
 
 INSERT INTO `transcripts` (`id`, `userid`, `name`, `admission`, `programme`, `check_csee`, `admission_check`, `date_check`, `programme_check`, `award_check`, `gpa_check`, `grade_check`, `printed`, `created_at`, `updated_at`) VALUES
-(1, 7, 'Cassady Hardin', 'Blanditiis voluptas', 'Information Technology', '1', '0', '1', '0', '0', '1', '1', '1', '2022-06-20 06:20:03', '2022-06-20 06:20:03');
+(8, 6, 'Hiram Dennis', '199999999', 'Computer Science', '1', '0', '0', '1', '1', '1', '1', '1', '2022-06-27 08:04:20', '2022-06-27 08:04:20');
 
 -- --------------------------------------------------------
 
@@ -376,7 +379,11 @@ INSERT INTO `users` (`id`, `name`, `admission`, `level`, `course`, `department`,
 (20, 'bursa', NULL, NULL, NULL, NULL, '0', 'bursa@gmail.com', NULL, '$2y$10$B0nihbUoNx4FolGfJksLN.c9ECAy6e42Qmh.O/G0glsD7Vspo2ZOi', NULL, 2, 0, 0, NULL, '2022-06-20 04:21:41', '2022-06-20 04:21:41'),
 (21, 'tes', NULL, NULL, NULL, NULL, '0', 'test2@gmail.com', NULL, '$2y$10$ocnUWbrpI.dSR5GKNZlq5OBwnl/m6dnCj99JJYXBac7Ld8FlrRw/a', NULL, 2, 0, 0, NULL, '2022-06-20 04:22:11', '2022-06-20 04:22:11'),
 (22, 'test', NULL, NULL, NULL, NULL, '0', 'test3@gmail.com', NULL, '$2y$10$KchSYq8Tv/vOJsNRvSHM9eQkCbP1NlKakYjq7qG/3pCns2T/QMR8K', NULL, 14, 0, 0, NULL, '2022-06-20 04:22:38', '2022-06-20 04:22:38'),
-(23, 'user5', '11222', '1', '1', NULL, '0', 'user5@gmail.com', NULL, '$2y$10$t5Fu77lR0m9tnlm.sOXYheSk52ib/DNqsnUeFYZUXNm8Vunm6kDbm', NULL, 1, 0, 0, NULL, '2022-06-20 09:47:42', '2022-06-20 09:47:42');
+(23, 'user5', '11222', '1', '1', NULL, '0', 'user5@gmail.com', NULL, '$2y$10$t5Fu77lR0m9tnlm.sOXYheSk52ib/DNqsnUeFYZUXNm8Vunm6kDbm', NULL, 1, 0, 0, NULL, '2022-06-20 09:47:42', '2022-06-20 09:47:42'),
+(24, 'user10', '1000000', '1', '1', NULL, '0', 'user10@gmail.com', NULL, '$2y$10$j8O5sRIpddNLspZNLXiQAelgbUjPHpw/J.F/rwXE1hq6g/rlezCVu', NULL, 1, 0, 0, NULL, '2022-06-21 11:38:38', '2022-06-21 11:38:38'),
+(25, 'HOD ICT', NULL, NULL, NULL, NULL, '0', 'hodict@gmail.com', NULL, '$2y$10$tgwA259H9YMyfgAw1sEcf.tG4KVT8JwcP62Ke64327sp7SVS9GIGO', NULL, 10, 0, 0, NULL, '2022-07-13 08:10:10', '2022-07-13 08:10:10'),
+(27, 'user6', '1000', '1', '1', '2', '0', 'user6@gmail.com', NULL, '$2y$10$oxlUUmAz9HrEl9Ublya3heqvOnEvZaqEXNuNiF6VhSvi4dwG50lp2', NULL, 1, 0, 0, NULL, '2022-07-13 08:33:28', '2022-07-13 08:33:28'),
+(28, 'hodgst', NULL, NULL, NULL, NULL, '0', 'hodgst2@gmail.com', NULL, '$2y$10$j.SPfXQOH6njq4s4oFkZm.gnJwD.M6RmYZOgzymKXPcCsFAdSkWjq', NULL, 10, 0, 0, NULL, '2022-07-13 08:47:46', '2022-07-13 08:47:46');
 
 --
 -- Indexes for dumped tables
@@ -488,7 +495,7 @@ ALTER TABLE `certificates`
 -- AUTO_INCREMENT for table `clearances`
 --
 ALTER TABLE `clearances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `clears`
@@ -506,7 +513,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -524,7 +531,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `stages`
@@ -542,13 +549,13 @@ ALTER TABLE `tokens`
 -- AUTO_INCREMENT for table `transcripts`
 --
 ALTER TABLE `transcripts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
