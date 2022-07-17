@@ -20,7 +20,7 @@ class Officer
     {
         $user = Auth::user();
 
-        if ($user->role > 1 && $user->role < 22) {
+        if ($user->role > 1 && $user->role <= 22) {
             return $next($request);
         } else {
             return redirect("/");
